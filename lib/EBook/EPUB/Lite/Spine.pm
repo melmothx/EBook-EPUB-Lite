@@ -22,25 +22,29 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Spine;
-use Moose;
+
+use Moo;
+use Types::Standard qw/ArrayRef Object Str/;
+
 use EBook::EPUB::Lite::Spine::Itemref;
 
-has toc => ( isa => 'Str', is => 'rw' );
+has toc => ( isa => Str, is => 'rw' );
 
 has page_progression_direction => (
-    isa => "Str",
+    isa => Str,
     is  => "rw"
 );
 
 has itemrefs => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
-    handles    => {
-           all_itemrefs => 'elements',
-       },
 );
+
+sub all_itemrefs {
+    return @{ shift->itemrefs };
+}
+
 
 sub encode
 {
@@ -63,9 +67,6 @@ sub add_itemref
     my $itemref = EBook::EPUB::Lite::Spine::Itemref->new(@args);
     push @{$self->itemrefs()}, $itemref;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 
