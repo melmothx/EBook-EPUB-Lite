@@ -538,13 +538,21 @@ sub mkdir_and_copy {
 1;
 
 __END__
+
 =head1 NAME
 
 EBook::EPUB::Lite - module for generating EPUB documents
 
+=head1 DESCRIPTION
+
+This module is a fork of L<EBook::EPUB> to avoid the use of non-core,
+XS dependencies like L<Moose> and L<Data::UUID>, using instead L<Moo>
+and L<UUID::Tiny>. This module and the original one should be 1:1
+compatible.
+
 =head1 VERSION
 
-Version 0.6
+Version 0.7
 
 
 =head1 SYNOPSIS
