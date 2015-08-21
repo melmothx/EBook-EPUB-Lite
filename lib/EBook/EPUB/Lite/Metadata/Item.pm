@@ -22,9 +22,12 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Metadata::Item;
-use Moose;
 
-has [qw/name value/] => (isa => 'Str', is => 'rw');
+use Moo;
+use Types::Standard qw/Str/;
+
+has name  => (isa => Str, is => 'rw');
+has value => (isa => Str, is => 'rw');
 
 sub encode
 {
@@ -34,9 +37,6 @@ sub encode
         content => $self->value(),
     );
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 

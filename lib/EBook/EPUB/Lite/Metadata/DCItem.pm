@@ -22,7 +22,8 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Metadata::DCItem;
-use Moose;
+use Moo;
+use Types::Standard qw/ArrayRef Object Str/;
 
 #
 # Helper class for DC metadata items. Just contains name, value and attributes.
@@ -30,14 +31,14 @@ use Moose;
 # End-user should not use this module directly
 #
 
-has [qw/name value/] => (isa => 'Str', is => 'rw');
-has attributes => (
-    traits  => ['Array'],
-    isa     => 'ArrayRef[Str]',
-    is      => 'ro',
-    default => sub { [] },
-);
+has name  => (isa => Str, is => 'rw');
+has value => (isa => Str, is => 'rw');
 
+has attributes => (
+                   is         => 'ro',
+                   isa        => ArrayRef[Str],
+                   default    => sub { [] },
+                  );
 sub encode
 {
     my ($self, $writer) = @_;
@@ -54,8 +55,5 @@ sub copy_attributes
     my ($self, $ref) = @_;
     @{$self->attributes()} = @{$ref};
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;

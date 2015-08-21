@@ -23,25 +23,26 @@
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Metadata;
 use Carp;
-use Moose;
+use Moo;
+use Types::Standard qw/ArrayRef Int Ref Object/;
 use EBook::EPUB::Lite::Metadata::DCItem;
 use EBook::EPUB::Lite::Metadata::Item;
 
 has items => (
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
 );
 
 has id_counter => (
     is          => 'rw',
-    isa         => 'Int',
+    isa         => Int,
     default     => 0,
 );
 
 has _book_id_item => (
     is          => 'rw',
-    isa         => 'Ref',
+    isa         => Ref,
 );
 
 sub encode
@@ -233,9 +234,6 @@ sub add_meta_item
         );
     push @{$self->items()}, $item;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 
