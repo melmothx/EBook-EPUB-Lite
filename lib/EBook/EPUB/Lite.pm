@@ -752,9 +752,12 @@ Generate OCF Zip container with contents of current package
 
 Oleksandr Tymoshenko, E<lt>gonzo@bluezbox.comE<gt>
 
+Marco Pessotto, E<lt>melmothx@gmail.comE<gt> (port to Moo)
+
 =head1 BUGS
 
-Please report any bugs or feature requests to  E<lt>gonzo@bluezbox.comE<gt>
+Please report any bugs or feature requests to
+L<http://rt.cpan.org/Dist/Display.html?Queue=EBook-EPUB-Lite>.
 
 =head1 LICENSE AND COPYRIGHT
 
