@@ -24,11 +24,14 @@
 
 package EBook::EPUB::Lite;
 
+use strict;
+use warnings;
 use version;
-our $VERSION = 0.6;
+our $VERSION = 0.7;
 
-use Moose;
-
+use Moo;
+use Types::Standard qw/HashRef Object Str/;
+use EBook::EPUB::Lite::Utils::Array;
 use EBook::EPUB::Lite::Metadata;
 use EBook::EPUB::Lite::Manifest;
 use EBook::EPUB::Lite::Guide;
@@ -46,7 +49,7 @@ use File::Spec;
 use Carp;
 
 has metadata    => (
-    isa     => 'Object', 
+    isa     => Object,
     is      => 'ro',
     default => sub { EBook::EPUB::Lite::Metadata->new() },
     handles => [ qw/add_contributor
@@ -70,55 +73,54 @@ has metadata    => (
 );
 
 has manifest    => (
-    isa     => 'Object', 
+    isa     => Object,
     is      => 'ro',
     default => sub { EBook::EPUB::Lite::Manifest->new() },
 );
 
 has spine       => (
-    isa     => 'Object', 
+    isa     => Object,
     is      => 'ro',
     default => sub { EBook::EPUB::Lite::Spine->new() },
 );
 
 has guide       => (
-    isa     => 'Object', 
+    isa     => Object,
     is      => 'ro',
     default => sub { EBook::EPUB::Lite::Guide->new() },
 );
 
 has ncx     => (
-    isa     => 'Object', 
+    isa     => Object,
     is      => 'ro',
     default => sub { EBook::EPUB::Lite::NCX->new() },
     handles => [ qw/add_navpoint/ ],
 );
 
 has _uuid  => (
-    isa     => 'Str',
+    isa     => Str,
     is      => 'rw',
 );
 
 has _encryption_key  => (
-    isa     => 'Str',
+    isa     => Str,
     is      => 'rw',
 );
 
 # Array of filenames that should be encrypted
 has _encrypted_filerefs => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Str]',
-    default    => sub { [] },
+    isa        => Object,
+    default    => sub { EBook::EPUB::Lite::Utils::Array->new },
     handles    => {
            add_encrypted_fileref => 'push',
            encrypted_filerefs    => 'elements',
        },
 );
 
-has id_counters => ( isa => 'HashRef', is => 'ro', default =>  sub { {} });
+has id_counters => ( isa => HashRef, is => 'ro', default =>  sub { {} });
 
-has temporary_dir_handle => (isa => 'Object',
+has temporary_dir_handle => (isa => Object,
                              is => 'ro',
                              default => sub {
                                  # defaults to CLEANUP => 1 as per doc
@@ -530,9 +532,6 @@ sub mkdir_and_copy {
     mkpath(dirname($to));
     return copy($from, $to);
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 
