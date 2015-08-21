@@ -141,7 +141,7 @@ sub BUILD
     $self->spine->toc('ncx');
     mkdir ($self->tmpdir . "/OPS") or die "Can't make OPS dir in " . $self->tmpdir;
     # Implicitly generate UUID for book
-    my $ug = new Data::UUID;
+    my $ug = Data::UUID->new;
     my $uuid = $ug->create_str();
     $self->_set_uuid($uuid);
 }
