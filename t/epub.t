@@ -30,6 +30,7 @@ my $specs = {
             };
 
 create_epub($epub_file, $specs);
+check_epub($epub_file, $specs);
 
 ok (-f $epub_file, "$epub_file generated");
 
@@ -48,9 +49,7 @@ sub create_epub {
     my ($target, $spec) = @_;
     die unless $target && $spec;
     my $epub = EBook::EPUB::Lite->new;
-    if (my $css = $spec->{css}) {
-        $epub->add_stylesheet("stylesheet.css" => $css);
-    }
+    $epub->add_stylesheet("stylesheet.css" => $spec->{css} || 'html { font-size: 9pt }');
     $epub->add_author($spec->{author} || 'Author');
     $epub->add_title($spec->{title} || 'Title');
     $epub->add_language($spec->{lang} || 'en');
@@ -95,4 +94,35 @@ sub html_wrap {
 </html>
 
 XHTML
+    return $xhtml;
+}
+
+sub check_epub {
+    my ($epub, $spec) = @_;
+    my $zip = Archive::Zip->new;
+    die "Couldn't read $epub" if $zip->read($epub) != AZ_OK;
+    my $tmpdir = File::Temp->newdir(CLEANUP => !$ENV{EPUB_NO_CLEANUP});
+    diag "Using " .$tmpdir->dirname;
+    $zip->extractTree('OPS', $tmpdir->dirname);
+    my $counter = 0;
+    foreach my $html (@{$spec->{html}}) {
+        $counter++;
+        my $filename = 'piece' . $counter . '.xhtml';
+        my $target = catfile($tmpdir->dirname, $filename);
+        my $content = read_file($target);
+        ok(index($content, $html) >= 0, "Found $html in $filename");
+    }
+    if (my $css = $spec->{css}) {
+        ok(index(read_file(catfile($tmpdir->dirname, 'stylesheet.css')),
+                 $css) >= 0, "Found CSS in stylesheet.css");
+    }
+}
+
+sub read_file {
+    my $file = shift;
+    open (my $fh, '<:encoding(UTF-8)', $file) or die "Couldn't open $file $!";
+    local $/;
+    my $content = <$fh>;
+    close $fh or die "Couldn't close $file $!";
+    return $content;
 }
