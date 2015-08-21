@@ -27,6 +27,7 @@
 package EBook::EPUB::Lite::Container;
 
 use strict;
+use warnings;
 use XML::Writer;
 use IO::File;
 use File::Find;
@@ -138,13 +139,13 @@ sub is_valid_path
 sub write_container
 {
     my ($self, $outname) = @_;
-    my $container = new IO::File(">$outname");
+    my $container = IO::File->new(">$outname");
 
     if (!defined($container)) {
         return;
     }
 
-    my $writer = new XML::Writer( 
+    my $writer = XML::Writer->new(
                                 OUTPUT => $container, 
                                 DATA_MODE => 1,
                                 DATA_INDENT => 2,
@@ -184,13 +185,13 @@ sub has_encrypted_files
 sub write_encryption
 {
     my ($self, $outname) = @_;
-    my $container = new IO::File(">$outname");
+    my $container = IO::File->new(">$outname");
 
     if (!defined($container)) {
         return;
     }
 
-    my $writer = new XML::Writer( 
+    my $writer = XML::Writer->new(
                                 OUTPUT => $container, 
                                 DATA_MODE => 1,
                                 DATA_INDENT => 2,

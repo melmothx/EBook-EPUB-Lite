@@ -25,6 +25,7 @@
 package EBook::EPUB::Lite::Container::Zip;
 
 use strict;
+use warnings;
 use EBook::EPUB::Lite::Container;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );;
 use File::Temp qw/tempfile/;

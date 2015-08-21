@@ -22,39 +22,47 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::NCX;
-use Moose;
+use Moo;
+use Types::Standard qw/ArrayRef Object Str/;
 use EBook::EPUB::Lite::NCX::NavPoint;
 
 # Very simplified module for generation NCX
 
-has [qw/uid title/] => ( isa => 'Str', is => 'rw' );
+has uid   => ( isa => Str, is => 'rw' );
+has title => ( isa => Str, is => 'rw' );
 
 has navpoints => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
-    handles    => {
-           all_navpoints => 'elements',
-       },
 );
 
+sub all_navpoints {
+    return @{ shift->navpoints};
+}
+
+
+
 has authors => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Str]',
+    isa        => ArrayRef[Str],
     default    => sub { [] },
-    handles    => {
-          all_authors    => 'elements',
-          add_author     => 'push',
-    },
 );
+
+sub all_authors {
+    return @{ shift->authors };
+}
+
+sub add_author {
+    my ($self, @args) = @_;
+    push @{ shift->authors }, @args;
+}
 
 sub to_xml
 {
     my ($self) = @_;
     my $xml;
-    my $writer = new XML::Writer(
+    my $writer = XML::Writer->new(
         OUTPUT => \$xml,
         DATA_MODE => 1,
         DATA_INDENT => 2,
@@ -139,9 +147,6 @@ sub add_navpoint
     push @{$self->navpoints}, $point;
     return $point;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 

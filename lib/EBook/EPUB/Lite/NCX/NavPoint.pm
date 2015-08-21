@@ -22,19 +22,26 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::NCX::NavPoint;
-use Moose;
 
-has [qw/label id content class/] => ( isa => 'Str', is => 'rw' );
-has play_order => ( isa => 'Int', is => 'rw' );
+use Moo;
+use Types::Standard qw/Str ArrayRef Object Int/;
+
+has label   => ( isa => Str, is => 'rw' );
+has id      => ( isa => Str, is => 'rw' );
+has content => ( isa => Str, is => 'rw' );
+has class   => ( isa => Str, is => 'rw' );
+has play_order => ( isa => Int, is => 'rw' );
 has navpoints => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
-    handles    => {
-           all_navpoints => 'elements',
-       },
 );
+
+sub all_navpoints {
+    return @{ shift->navpoints };
+}
+
+
 
 sub encode
 {
@@ -70,9 +77,6 @@ sub add_navpoint
 
     return $subpoint;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 

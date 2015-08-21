@@ -32,13 +32,13 @@ our $VERSION = 0.7;
 use Moo;
 use Types::Standard qw/HashRef Object Str/;
 use EBook::EPUB::Lite::Utils::Array;
-use EBook::EPUB::Lite::Metadata;
-use EBook::EPUB::Lite::Manifest;
-use EBook::EPUB::Lite::Guide;
-use EBook::EPUB::Lite::Spine;
-use EBook::EPUB::Lite::NCX;
+use EBook::EPUB::Lite::Metadata; # done
+use EBook::EPUB::Lite::Manifest; # done
+use EBook::EPUB::Lite::Guide; # done
+use EBook::EPUB::Lite::Spine; # done
+use EBook::EPUB::Lite::NCX; # done
 
-use EBook::EPUB::Lite::Container::Zip;
+use EBook::EPUB::Lite::Container::Zip; # not moose
 
 use Data::UUID;
 use File::Temp;
