@@ -42,6 +42,7 @@ use File::Temp;
 use File::Basename qw/dirname/;
 use File::Copy;
 use File::Path;
+use File::Spec;
 use Carp;
 
 has metadata    => (
@@ -309,25 +310,15 @@ sub add_entry
     return $id;
 }
 
-sub add_xhtml
-{
+sub add_xhtml {
     my ($self, $filename, $data, %opts) = @_;
-    my $tmpdir = $self->tmpdir;
-    open F, ">:utf8", "$tmpdir/OPS/$filename";
-    print F $data;
-    close F;
-
+    $self->_write_text([OPS => $filename], $data);
     return $self->add_xhtml_entry($filename, %opts);
 }
 
-sub add_stylesheet
-{
+sub add_stylesheet {
     my ($self, $filename, $data) = @_;
-    my $tmpdir = $self->tmpdir;
-    open F, ">:utf8", "$tmpdir/OPS/$filename";
-    print F $data;
-    close F;
-
+    $self->_write_text([OPS => $filename], $data);
     return $self->add_stylesheet_entry($filename);
 }
 
@@ -468,8 +459,8 @@ sub pack_zip
 {
     my ($self, $filename) = @_;
     my $tmpdir = $self->tmpdir;
-    $self->write_ncx("$tmpdir/OPS/toc.ncx");
-    $self->write_opf("$tmpdir/OPS/content.opf");
+    $self->write_ncx;
+    $self->write_opf;
     my $container = EBook::EPUB::Lite::Container::Zip->new($filename);
     $container->add_path($tmpdir . "/OPS", "OPS/");
     $container->add_root_file("OPS/content.opf", "application/oebps-package+xml");
@@ -479,24 +470,15 @@ sub pack_zip
     return $container->write();
 }
 
-sub write_opf
-{
-    my ($self, $filename) = @_;
-    open F, ">:utf8", $filename or die "Failed to create OPF file: $filename";
-    my $xml = $self->to_xml();
-    print F $xml;
-    close F;
+sub write_opf {
+    my ($self) = @_;
+    $self->_write_text([OPS => 'content.opf' ], $self->to_xml);
 }
 
-sub write_ncx
-{
-    my ($self, $filename) = @_;
-    open F, ">:utf8", $filename or die "Failed to create NCX file: $filename";
-    my $xml = $self->ncx->to_xml();
-    print F $xml;
-    close F;
+sub write_ncx {
+    my ($self) = @_;
+    $self->_write_text([OPS => 'toc.ncx'], $self->ncx->to_xml)
 }
-
 
 # helper function that performs Adobe content protection "encryption"
 sub adobe_encrypt
@@ -535,6 +517,16 @@ sub adobe_encrypt
 
     close IN;
     close OUT;
+}
+
+sub _write_text {
+    my ($self, $path, $data) = @_;
+    my $filename = File::Spec->catfile($self->tmpdir, @$path);
+    # print "Writing $filename\n";
+    open (my $fh, '>:encoding(UTF-8)', $filename)
+      or die "Failed to open $filename $!";
+    print $fh $data;
+    close $fh;
 }
 
 sub mkdir_and_copy {
