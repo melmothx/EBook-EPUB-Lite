@@ -30,9 +30,8 @@ my $specs = {
             };
 
 create_epub($epub_file, $specs);
-check_epub($epub_file, $specs);
-
 ok (-f $epub_file, "$epub_file generated");
+check_epub($epub_file, $specs);
 
 if (-f $epub_file) {
     if ($ENV{EPUB_NO_CLEANUP}) {
@@ -102,8 +101,9 @@ sub check_epub {
     my $zip = Archive::Zip->new;
     die "Couldn't read $epub" if $zip->read($epub) != AZ_OK;
     my $tmpdir = File::Temp->newdir(CLEANUP => !$ENV{EPUB_NO_CLEANUP});
-    diag "Using " .$tmpdir->dirname;
+    diag "Using " . $tmpdir->dirname;
     $zip->extractTree('OPS', $tmpdir->dirname);
+    $zip->extractTree('META-INF', $tmpdir->dirname);
     my $counter = 0;
     foreach my $html (@{$spec->{html}}) {
         $counter++;
@@ -115,6 +115,11 @@ sub check_epub {
     if (my $css = $spec->{css}) {
         ok(index(read_file(catfile($tmpdir->dirname, 'stylesheet.css')),
                  $css) >= 0, "Found CSS in stylesheet.css");
+    }
+    foreach my $meta ('container.xml', 'content.opf', 'toc.ncx') {
+        my $meta_content = read_file(catfile($tmpdir->dirname, $meta));
+        ok($meta_content, "Found content of $meta");
+        # diag $meta_content;
     }
 }
 
