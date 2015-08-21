@@ -21,11 +21,11 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-package EBook::EPUB::Metadata;
+package EBook::EPUB::Lite::Metadata;
 use Carp;
 use Moose;
-use EBook::EPUB::Metadata::DCItem;
-use EBook::EPUB::Metadata::Item;
+use EBook::EPUB::Lite::Metadata::DCItem;
+use EBook::EPUB::Lite::Metadata::Item;
 
 has items => (
     is         => 'ro',
@@ -163,7 +163,7 @@ sub set_book_id
 {
     my ($self, $book_id) = @_;
     my @attr = ('id', 'BookId');
-    my $dcitem = EBook::EPUB::Metadata::DCItem->new(
+    my $dcitem = EBook::EPUB::Lite::Metadata::DCItem->new(
             name        => "dc:identifier",
             value       => $book_id,
             attributes  => \@attr);
@@ -217,7 +217,7 @@ sub add_rights
 sub add_meta_dcitem
 {
     my ($self, $name, $value, @attributes) = @_;
-    my $dcitem = EBook::EPUB::Metadata::DCItem->new(
+    my $dcitem = EBook::EPUB::Lite::Metadata::DCItem->new(
             name        => "dc:$name",
             value       => $value,
             attributes  => \@attributes);
@@ -227,7 +227,7 @@ sub add_meta_dcitem
 sub add_meta_item
 {
     my ($self, $name, $value) = @_;
-    my $item = EBook::EPUB::Metadata::Item->new(
+    my $item = EBook::EPUB::Lite::Metadata::Item->new(
             name    => $name,
             value   => $value,
         );
@@ -243,7 +243,7 @@ __END__
 
 =head1 NAME
 
-EBook::EPUB::Metadata
+EBook::EPUB::Lite::Metadata
 
 =head1 SYNOPSIS
 

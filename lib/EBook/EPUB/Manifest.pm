@@ -21,9 +21,9 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-package EBook::EPUB::Manifest;
+package EBook::EPUB::Lite::Manifest;
 use Moose;
-use EBook::EPUB::Manifest::Item;
+use EBook::EPUB::Lite::Manifest::Item;
 
 has items => (
     traits     => ['Array'],
@@ -48,7 +48,7 @@ sub encode
 sub add_item
 {
     my ($self, @args) = @_;
-    my $item = EBook::EPUB::Manifest::Item->new(@args);
+    my $item = EBook::EPUB::Lite::Manifest::Item->new(@args);
     push @{$self->items()}, $item;
 }
 
@@ -61,7 +61,7 @@ __END__
 
 =head1 NAME
 
-EBook::EPUB::Manifest
+EBook::EPUB::Lite::Manifest
 
 =head1 SYNOPSIS
 
@@ -81,11 +81,11 @@ embedded font files, any included schemas).
 =item add_item(%opts)
 
 Add refrence to an OPS Content Document that is a part of publication. %opts is
-an anonymous hash, for possible key values see L<EBook::EPUB::Manifest::Item>
+an anonymous hash, for possible key values see L<EBook::EPUB::Lite::Manifest::Item>
 
 =item all_items()
 
-Returns array of EBook::EPUB::Manifest::Item objects, current content of B<manifest> element
+Returns array of EBook::EPUB::Lite::Manifest::Item objects, current content of B<manifest> element
 
 =item encode($xmlwriter)
 

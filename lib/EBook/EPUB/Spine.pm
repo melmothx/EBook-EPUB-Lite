@@ -21,9 +21,9 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-package EBook::EPUB::Spine;
+package EBook::EPUB::Lite::Spine;
 use Moose;
-use EBook::EPUB::Spine::Itemref;
+use EBook::EPUB::Lite::Spine::Itemref;
 
 has toc => ( isa => 'Str', is => 'rw' );
 
@@ -60,7 +60,7 @@ sub encode
 sub add_itemref
 {
     my ($self, @args) = @_;
-    my $itemref = EBook::EPUB::Spine::Itemref->new(@args);
+    my $itemref = EBook::EPUB::Lite::Spine::Itemref->new(@args);
     push @{$self->itemrefs()}, $itemref;
 }
 
@@ -73,7 +73,7 @@ __END__
 
 =head1 NAME
 
-EBook::EPUB::Spine
+EBook::EPUB::Lite::Spine
 
 =head1 SYNOPSIS
 
@@ -91,11 +91,11 @@ The B<spine> element organizes the associated OPS Content Documents into the lin
 =item add_itemref(%opts)
 
 Add reference an OPS Content Document designated in the B<manifest>. %opts is an anonymous hash, for possible key
-values see L<EBook::EPUB::Spine::Itemref>
+values see L<EBook::EPUB::Lite::Spine::Itemref>
 
 =item all_references()
 
-Returns array of EBook::EPUB::Spine::Itemref objects, current content of B<spine> element
+Returns array of EBook::EPUB::Lite::Spine::Itemref objects, current content of B<spine> element
 
 =item encode($xmlwriter)
 

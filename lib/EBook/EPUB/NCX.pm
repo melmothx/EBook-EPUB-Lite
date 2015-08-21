@@ -21,9 +21,9 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-package EBook::EPUB::NCX;
+package EBook::EPUB::Lite::NCX;
 use Moose;
-use EBook::EPUB::NCX::NavPoint;
+use EBook::EPUB::Lite::NCX::NavPoint;
 
 # Very simplified module for generation NCX
 
@@ -135,7 +135,7 @@ sub create_navmap
 sub add_navpoint
 {
     my ($self, @args) = @_;
-    my $point = EBook::EPUB::NCX::NavPoint->new(@args);
+    my $point = EBook::EPUB::Lite::NCX::NavPoint->new(@args);
     push @{$self->navpoints}, $point;
     return $point;
 }
@@ -149,7 +149,7 @@ __END__
 
 =head1 NAME
 
-EBook::EPUB::NCX
+EBook::EPUB::Lite::NCX
 
 =head1 SYNOPSIS
 
@@ -172,13 +172,13 @@ visualized as a collapsible tree familiar to PC users.
 =item add_navpoint(%opts)
 
 Add refrence to an OPS Content Document that is a part of publication. %opts is
-an anonymous hash, for possible key values see L<EBook::EPUB::NCX::NavPoint>.
-Method returns created EBook::EPUB::NCX::NavPoint object that could be used
+an anonymous hash, for possible key values see L<EBook::EPUB::Lite::NCX::NavPoint>.
+Method returns created EBook::EPUB::Lite::NCX::NavPoint object that could be used
 later for adding subsections.
 
 =item all_navpoints()
 
-Returns array of EBook::EPUB::NCX::NavPoint objects, current content of NCX
+Returns array of EBook::EPUB::Lite::NCX::NavPoint objects, current content of NCX
 
 =item add_author([$author)
 

@@ -4,12 +4,12 @@ use utf8;
 use strict;
 use warnings;
 use Test::More tests => 4;
-use EBook::EPUB;
+use EBook::EPUB::Lite;
 use File::Spec;
 
 my ($test_tempdir, $test_epub);
 {
-    my $epub = EBook::EPUB->new;
+    my $epub = EBook::EPUB::Lite->new;
     $test_tempdir = $epub->tmpdir;
     ok (-d $test_tempdir, "$test_tempdir exists");
     $test_epub = build_test_epub($epub);

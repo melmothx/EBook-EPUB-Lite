@@ -22,20 +22,20 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-package EBook::EPUB;
+package EBook::EPUB::Lite;
 
 use version;
 our $VERSION = 0.6;
 
 use Moose;
 
-use EBook::EPUB::Metadata;
-use EBook::EPUB::Manifest;
-use EBook::EPUB::Guide;
-use EBook::EPUB::Spine;
-use EBook::EPUB::NCX;
+use EBook::EPUB::Lite::Metadata;
+use EBook::EPUB::Lite::Manifest;
+use EBook::EPUB::Lite::Guide;
+use EBook::EPUB::Lite::Spine;
+use EBook::EPUB::Lite::NCX;
 
-use EBook::EPUB::Container::Zip;
+use EBook::EPUB::Lite::Container::Zip;
 
 use Data::UUID;
 use File::Temp;
@@ -47,7 +47,7 @@ use Carp;
 has metadata    => (
     isa     => 'Object', 
     is      => 'ro',
-    default => sub { EBook::EPUB::Metadata->new() },
+    default => sub { EBook::EPUB::Lite::Metadata->new() },
     handles => [ qw/add_contributor
                     add_creator
                     add_coverage
@@ -71,25 +71,25 @@ has metadata    => (
 has manifest    => (
     isa     => 'Object', 
     is      => 'ro',
-    default => sub { EBook::EPUB::Manifest->new() },
+    default => sub { EBook::EPUB::Lite::Manifest->new() },
 );
 
 has spine       => (
     isa     => 'Object', 
     is      => 'ro',
-    default => sub { EBook::EPUB::Spine->new() },
+    default => sub { EBook::EPUB::Lite::Spine->new() },
 );
 
 has guide       => (
     isa     => 'Object', 
     is      => 'ro',
-    default => sub { EBook::EPUB::Guide->new() },
+    default => sub { EBook::EPUB::Lite::Guide->new() },
 );
 
 has ncx     => (
     isa     => 'Object', 
     is      => 'ro',
-    default => sub { EBook::EPUB::NCX->new() },
+    default => sub { EBook::EPUB::Lite::NCX->new() },
     handles => [ qw/add_navpoint/ ],
 );
 
@@ -470,7 +470,7 @@ sub pack_zip
     my $tmpdir = $self->tmpdir;
     $self->write_ncx("$tmpdir/OPS/toc.ncx");
     $self->write_opf("$tmpdir/OPS/content.opf");
-    my $container = EBook::EPUB::Container::Zip->new($filename);
+    my $container = EBook::EPUB::Lite::Container::Zip->new($filename);
     $container->add_path($tmpdir . "/OPS", "OPS/");
     $container->add_root_file("OPS/content.opf", "application/oebps-package+xml");
     foreach my $fref ($self->encrypted_filerefs) {
@@ -551,7 +551,7 @@ __PACKAGE__->meta->make_immutable;
 __END__
 =head1 NAME
 
-EBook::EPUB - module for generating EPUB documents
+EBook::EPUB::Lite - module for generating EPUB documents
 
 =head1 VERSION
 
@@ -560,10 +560,10 @@ Version 0.6
 
 =head1 SYNOPSIS
 
-    use EBook::EPUB;
+    use EBook::EPUB::Lite;
 
     # Create EPUB object
-    my $epub = EBook::EPUB->new;
+    my $epub = EBook::EPUB::Lite->new;
 
     # Set metadata: title/author/language/id
     $epub->add_title('Three Men in a Boat');
@@ -605,7 +605,7 @@ Version 0.6
 
 =item new([$params])
 
-Create an EBook::EPUB object
+Create an EBook::EPUB::Lite object
 
 =item add_title($title)
 
@@ -695,8 +695,8 @@ from a controlled vocabulary.
 =item add_navpoint(%opts)
 
 Add refrence to an OPS Content Document that is a part of publication. %opts is
-an anonymous hash, for possible key values see L<EBook::EPUB::NCX::NavPoint>.
-Method returns created EBook::EPUB::NCX::NavPoint object that could be used
+an anonymous hash, for possible key values see L<EBook::EPUB::Lite::NCX::NavPoint>.
+Method returns created EBook::EPUB::Lite::NCX::NavPoint object that could be used
 later for adding subsections.
 
 =item add_meta_item($name, $value)

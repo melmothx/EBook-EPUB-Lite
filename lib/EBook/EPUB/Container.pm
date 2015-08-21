@@ -24,7 +24,7 @@
 
 # OEPBS Container format implementation
 # http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
-package EBook::EPUB::Container;
+package EBook::EPUB::Lite::Container;
 
 use strict;
 use XML::Writer;
@@ -229,13 +229,13 @@ __END__;
 
 =head1 NAME
 
-EBook::EPUB::Container
+EBook::EPUB::Lite::Container
 
 =head1 SYNOPSIS
 
 Abstract OEPBS Container implementation
 
-    my $container = EBook::EPUB::Container->new()
+    my $container = EBook::EPUB::Lite::Container->new()
     $container->add_path('/path/to/content.ncx', 'DATA/content.ncx');
     $container->add_path('/path/to/page1.xhtml', 'DATA/page1.xhtml');
     $container->add_path('/path/to/page2.xhtml', 'DATA/page2.xhtml');
@@ -247,7 +247,7 @@ Abstract OEPBS Container implementation
 
 =item new()
 
-Create new instance of EBook::EPUB::Container object
+Create new instance of EBook::EPUB::Lite::Container object
 
 =item add_path($file_path, $container_path)
 

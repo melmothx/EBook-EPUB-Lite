@@ -22,16 +22,16 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-package EBook::EPUB::Container::Zip;
+package EBook::EPUB::Lite::Container::Zip;
 
 use strict;
-use EBook::EPUB::Container;
+use EBook::EPUB::Lite::Container;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );;
 use File::Temp qw/tempfile/;
 use Carp;
 
 use vars qw(@ISA);
-@ISA     = qw(EBook::EPUB::Container);
+@ISA     = qw(EBook::EPUB::Lite::Container);
 
 sub new 
 {
@@ -88,15 +88,15 @@ __END__
 
 =head1 NAME
 
-EBook::EPUB::Container::Zip
+EBook::EPUB::Lite::Container::Zip
 
 =head1 SYNOPSIS
 
 Zip OEPBS Container implementation
 
-    my $container = EBook::EPUB::Container::Zip->new('/path/to/file.epub')
+    my $container = EBook::EPUB::Lite::Container::Zip->new('/path/to/file.epub')
 
-    # EBook::EPUB::Container methods
+    # EBook::EPUB::Lite::Container methods
     $container->add_path('/path/to/content.ncx', 'DATA/content.nx');
     $container->add_path('/path/to/page1.xhtml', 'DATA/page1.xhtml');
     $container->add_path('/path/to/page2.xhtml', 'DATA/page2.xhtml');
@@ -111,7 +111,7 @@ Zip OEPBS Container implementation
 
 =item new($zipfile)
 
-Create new instance of EBook::EPUB::Container::Zip object. $zipfile is a file where container should be saved 
+Create new instance of EBook::EPUB::Lite::Container::Zip object. $zipfile is a file where container should be saved 
 
 =item write()
 

@@ -21,9 +21,9 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-package EBook::EPUB::Guide;
+package EBook::EPUB::Lite::Guide;
 use Moose;
-use EBook::EPUB::Guide::Reference;
+use EBook::EPUB::Lite::Guide::Reference;
 
 has references => (
     traits     => ['Array'],
@@ -51,7 +51,7 @@ sub encode
 sub add_reference
 {
     my ($self, @args) = @_;
-    my $ref = EBook::EPUB::Guide::Reference->new(@args);
+    my $ref = EBook::EPUB::Lite::Guide::Reference->new(@args);
     push @{$self->references()}, $ref;
 }
 
@@ -63,7 +63,7 @@ __PACKAGE__->meta->make_immutable;
 __END__
 =head1 NAME
 
-EBook::EPUB::Guide
+EBook::EPUB::Lite::Guide
 
 =head1 SYNOPSIS
 
@@ -89,11 +89,11 @@ See section 2.6 of OPF specification
 =item add_reference(%opts)
 
 Add reference to guide element. %opts is an anonymous hash, for possible key
-values see L<EBook::EPUB::Guide::Reference>
+values see L<EBook::EPUB::Lite::Guide::Reference>
 
 =item all_references()
 
-Returns array of EBook::EPUB::Guide::Reference objects, current content of B<guide> element
+Returns array of EBook::EPUB::Lite::Guide::Reference objects, current content of B<guide> element
 
 =item encode($xmlwriter)
 
