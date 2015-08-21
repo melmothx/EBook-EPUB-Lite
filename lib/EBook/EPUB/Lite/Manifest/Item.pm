@@ -22,9 +22,12 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Manifest::Item;
-use Moose;
+use Moo;
+use Types::Standard qw/Str/;
 
-has [qw/id href media_type/] => ( isa => 'Str', is => 'rw' );
+has id         => ( isa => Str, is => 'rw' );
+has href       => ( isa => Str, is => 'rw' );
+has media_type => ( isa => Str, is => 'rw' );
 
 sub encode
 {
@@ -35,9 +38,6 @@ sub encode
                 'media-type'    => $self->media_type(),
             );
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 

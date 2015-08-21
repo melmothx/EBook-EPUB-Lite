@@ -22,18 +22,21 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Manifest;
-use Moose;
+
+use Moo;
+use Types::Standard qw/ArrayRef Object/;
 use EBook::EPUB::Lite::Manifest::Item;
 
 has items => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
-    handles    => {
-           all_items => 'elements',
-       },
 );
+
+sub all_items {
+    my $self = shift;
+    return @{$self->items};
+}
 
 sub encode
 {
@@ -51,9 +54,6 @@ sub add_item
     my $item = EBook::EPUB::Lite::Manifest::Item->new(@args);
     push @{$self->items()}, $item;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 
