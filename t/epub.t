@@ -62,7 +62,7 @@ sub create_epub {
     foreach my $html (@{$spec->{html}}) {
         $counter++;
         my $filename = 'piece' . $counter . '.xhtml';
-        my $id = $epub->add_xhtml($filename, $html);
+        my $id = $epub->add_xhtml($filename, html_wrap($html));
         $nav ||= $epub;
         $nav = $nav->add_navpoint(label => "Piece $counter",
                                   id => $id,
@@ -76,3 +76,23 @@ sub create_epub {
     return $target;
 }
 
+sub html_wrap {
+    my ($body, $title) = @_;
+    $title ||= "No title";
+    my $xhtml = <<"XHTML";
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>$title</title>
+    <link href="stylesheet.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="page">
+      $body
+    </div>
+  </body>
+</html>
+
+XHTML
+}
