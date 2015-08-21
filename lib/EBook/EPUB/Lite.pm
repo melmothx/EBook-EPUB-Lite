@@ -325,24 +325,14 @@ sub add_stylesheet {
 sub add_image
 {
     my ($self, $filename, $data, $type) = @_;
-    my $tmpdir = $self->tmpdir;
-    open F, "> $tmpdir/OPS/$filename";
-    binmode F;
-    print F $data;
-    close F;
-
+    $self->_write_data([OPS => $filename], $data);
     return $self->add_image_entry($filename, $type);
 }
 
 sub add_data
 {
     my ($self, $filename, $data, $type) = @_;
-    my $tmpdir = $self->tmpdir;
-    open F, "> $tmpdir/OPS/$filename";
-    binmode F;
-    print F $data;
-    close F;
-
+    $self->_write_data([OPS => $filename], $data);
     return $self->add_entry($filename, $type);
 }
 
@@ -487,18 +477,14 @@ sub adobe_encrypt
     my @key_bytes = unpack "C*", $key;
 
     # open source/destination files for read/write
-    open (IN, "< $src") or return;
-    if (!open (OUT, "> $dst")) {
-        close IN;
-        return;
-    }
-
-    binmode IN;
-    binmode OUT;
+    open (my $in,  '<', $src) or return;
+    open (my $out, '>', $dst) or return;
+    binmode $in;
+    binmode $out;
 
     # XOR first 1024 bytes of file by provided key
     my $data;
-    read(IN, $data, 1024);
+    read($in, $data, 1024);
     my @bytes = unpack ("C*", $data);
     my $key_ptr = 0;
     foreach my $d (@bytes) {
@@ -508,15 +494,15 @@ sub adobe_encrypt
     }
 
     my $crypted_data = pack "C*", @bytes;
-    print OUT $crypted_data;
+    print $out $crypted_data;
 
     # Copy th erest of the file, 1M buffer seems to be reasonable default
-    while (read(IN, $data, 1024*1024)) {
-        print OUT $data;
+    while (read($in, $data, 1024*1024)) {
+        print $out $data;
     }
 
-    close IN;
-    close OUT;
+    close $in;
+    close $out;
 }
 
 sub _write_text {
@@ -525,6 +511,16 @@ sub _write_text {
     # print "Writing $filename\n";
     open (my $fh, '>:encoding(UTF-8)', $filename)
       or die "Failed to open $filename $!";
+    print $fh $data;
+    close $fh;
+}
+
+sub _write_data {
+    my ($self, $path, $data) = @_;
+    my $filename = File::Spec->catfile($self->tmpdir, @$path);
+    open (my $fh, '>', $filename)
+      or die "Failed to open $filename $!";
+    binmode $fh;
     print $fh $data;
     close $fh;
 }

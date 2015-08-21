@@ -70,6 +70,10 @@ sub create_epub {
     foreach my $file (@{$spec->{files} || []}) {
         $epub->copy_file(undef, $file);
     }
+    # and some garbage
+    $epub->add_image('test.jpg', 'lakjsdflj', 'image/jpeg');
+    $epub->add_data('test.dat', 'lasdjklkasd',  'application/x-garbage');
+    $epub->encrypt_file(catfile(qw/t epub.t/), 'test.t', 'text/plain');
     $epub->pack_zip($target);
     return $target;
 }
