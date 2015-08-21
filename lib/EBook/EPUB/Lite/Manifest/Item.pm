@@ -43,6 +43,8 @@ sub encode
 
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 EBook::EPUB::Lite::Manifest::Item
@@ -79,7 +81,7 @@ Get/set URI of OPS Content Document to which item refers
 
 =item media_type([$media_type])
 
-Get/set item’s MIME media type.
+Get/set item's MIME media type.
 
 =back
 
