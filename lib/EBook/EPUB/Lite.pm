@@ -39,7 +39,7 @@ use EBook::EPUB::Lite::NCX; # done
 
 use EBook::EPUB::Lite::Container::Zip; # not moose
 
-use Data::UUID;
+use UUID::Tiny qw();
 use File::Temp;
 use File::Basename qw/dirname/;
 use File::Copy;
@@ -124,7 +124,7 @@ sub encrypted_filerefs {
 
 has id_counters => ( isa => HashRef, is => 'ro', default =>  sub { {} });
 
-has temporary_dir_handle => (isa => Object,
+has _temporary_dir_handle => (isa => Object,
                              is => 'ro',
                              default => sub {
                                  # defaults to CLEANUP => 1 as per doc
@@ -133,7 +133,7 @@ has temporary_dir_handle => (isa => Object,
 
 sub tmpdir {
     # return the path, not the object.
-    return shift->temporary_dir_handle->dirname;
+    return shift->_temporary_dir_handle->dirname;
 }
 
 sub BUILD
@@ -148,9 +148,7 @@ sub BUILD
     $self->spine->toc('ncx');
     mkdir ($self->tmpdir . "/OPS") or die "Can't make OPS dir in " . $self->tmpdir;
     # Implicitly generate UUID for book
-    my $ug = Data::UUID->new;
-    my $uuid = $ug->create_str();
-    $self->_set_uuid($uuid);
+    $self->_set_uuid(UUID::Tiny::uuid_to_string(UUID::Tiny::create_uuid()));
 }
 
 sub to_xml
