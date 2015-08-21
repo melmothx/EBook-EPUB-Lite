@@ -3,10 +3,10 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                => 'EBook::EPUB',
+    NAME                => 'EBook::EPUB::Lite',
     AUTHOR              => q{Oleksandr Tymoshenko <gonzo@bluezbox.com>},
-    VERSION_FROM        => 'lib/EBook/EPUB.pm',
-    ABSTRACT_FROM       => 'lib/EBook/EPUB.pm',
+    VERSION_FROM        => 'lib/EBook/EPUB/Lite.pm',
+    ABSTRACT_FROM       => 'lib/EBook/EPUB/Lite.pm',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'bsd')
       : ()),
@@ -24,7 +24,7 @@ WriteMakefile(
     },
     META_ADD => {
         resources => {
-            repository => 'http://github.com/gonzoua/EBook-EPUB',
+            repository => 'http://github.com/melmothx/EBook-EPUB-Lite',
         },
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
