@@ -38,7 +38,7 @@ use EBook::EPUB::NCX;
 use EBook::EPUB::Container::Zip;
 
 use Data::UUID;
-use File::Temp qw/tempdir/;
+use File::Temp;
 use File::Basename qw/dirname/;
 use File::Copy;
 use File::Path;
@@ -114,7 +114,18 @@ has _encrypted_filerefs => (
 );
 
 has id_counters => ( isa => 'HashRef', is => 'ro', default =>  sub { {} });
-has tmpdir => ( isa => 'Str', is => 'rw', default =>  sub { tempdir( CLEANUP => 1 ); });
+
+has temporary_dir_handle => (isa => 'Object',
+                             is => 'ro',
+                             default => sub {
+                                 # defaults to CLEANUP => 1 as per doc
+                                 return File::Temp->newdir;
+                             });
+
+sub tmpdir {
+    # return the path, not the object.
+    return shift->temporary_dir_handle->dirname;
+}
 
 sub BUILD
 {
