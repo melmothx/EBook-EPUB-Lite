@@ -1,7 +1,10 @@
-EBook::EPUB
+EBook::EPUB::Lite
 
 This package contain modules to work with files in EPUB format, free and 
 open e-book standard by the International Digital Publishing Forum (IDPF)
+
+This is a fork of EBook::EPUB, with the purpose of using Moo instead
+of Moose to lighten the deps.
 
 INSTALLATION
 
@@ -17,21 +20,21 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc EBook::EPUB
+    perldoc EBook::EPUB::Lite
 
 You can also look for information at:
 
     RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=EBook-EPUB
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=EBook-EPUB-Lite
 
     AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/EBook-EPUB
+        http://annocpan.org/dist/EBook-EPUB-Lite
 
     CPAN Ratings
-        http://cpanratings.perl.org/d/EBook-EPUB
+        http://cpanratings.perl.org/d/EBook-EPUB-Lite
 
     Search CPAN
-        http://search.cpan.org/dist/EBook-EPUB/
+        http://search.cpan.org/dist/EBook-EPUB-Lite
 
 
 LICENSE AND COPYRIGHT
