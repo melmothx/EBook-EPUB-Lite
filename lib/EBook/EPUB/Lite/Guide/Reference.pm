@@ -22,13 +22,15 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Guide::Reference;
-use Moose;
+use Moo;
+use Types::Standard qw/Str/;
 
-has [qw/href type/] => (isa => 'Str', is => 'rw');
+has href => (isa => Str, is => 'rw');
+has type => (isa => Str, is => 'rw');
+
 has title => (
-    isa         => 'Str',
+    isa         => Str,
     is          => 'rw',
-    predicate   => 'has_title',
 );
 
 sub encode
@@ -40,15 +42,12 @@ sub encode
             type => $self->type(),
         );
 
-    if ($self->has_title()) {
-        push @attributes, 'title', $self->title();
+    if (defined $self->title) {
+        push @attributes, 'title', $self->title;
     }
 
     $writer->emptyTag('reference', @attributes);
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 

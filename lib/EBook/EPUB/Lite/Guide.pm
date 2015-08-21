@@ -22,18 +22,19 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 package EBook::EPUB::Lite::Guide;
-use Moose;
+use Moo;
+use Types::Standard qw/ArrayRef Object/;
 use EBook::EPUB::Lite::Guide::Reference;
 
 has references => (
-    traits     => ['Array'],
     is         => 'ro',
-    isa        => 'ArrayRef[Object]',
+    isa        => ArrayRef[Object],
     default    => sub { [] },
-    handles    => {
-           all_references    => 'elements',
-       },
 );
+
+sub all_references {
+    return @{ shift->references };
+}
 
 sub encode
 {
@@ -54,9 +55,6 @@ sub add_reference
     my $ref = EBook::EPUB::Lite::Guide::Reference->new(@args);
     push @{$self->references()}, $ref;
 }
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
 
 1;
 
