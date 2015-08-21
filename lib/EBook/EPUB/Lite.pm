@@ -30,8 +30,7 @@ use version;
 our $VERSION = 0.7;
 
 use Moo;
-use Types::Standard qw/HashRef Object Str/;
-use EBook::EPUB::Lite::Utils::Array;
+use Types::Standard qw/ArrayRef HashRef Object Str/;
 use EBook::EPUB::Lite::Metadata; # done
 use EBook::EPUB::Lite::Manifest; # done
 use EBook::EPUB::Lite::Guide; # done
@@ -110,13 +109,18 @@ has _encryption_key  => (
 # Array of filenames that should be encrypted
 has _encrypted_filerefs => (
     is         => 'ro',
-    isa        => Object,
-    default    => sub { EBook::EPUB::Lite::Utils::Array->new },
-    handles    => {
-           add_encrypted_fileref => 'push',
-           encrypted_filerefs    => 'elements',
-       },
+    isa        => ArrayRef[Object],
+    default    => sub { [] },
 );
+
+sub add_encrypted_fileref {
+    my ($self, @args) = @_;
+    push @{ shift->_encrypted_filerefs }, @args;
+}
+
+sub encrypted_filerefs {
+    return @{ shift->_encrypted_filerefs };
+}
 
 has id_counters => ( isa => HashRef, is => 'ro', default =>  sub { {} });
 
