@@ -37,7 +37,7 @@ has items => (
 has id_counter => (
     is          => 'rw',
     isa         => Int,
-    default     => 0,
+    default     => sub { 0 },
 );
 
 has _book_id_item => (
