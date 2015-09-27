@@ -1,5 +1,8 @@
 Revision history for EBook::EPUB
 
+0.71    Sun 27 Sep 2015
+        - Minor fix for older Moo
+
 0.7     Fri 21 Aug 2015
         - Replaced Moose with Moo
         - Replaced Data::UUID with UUID::Tiny

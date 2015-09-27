@@ -27,7 +27,7 @@ package EBook::EPUB::Lite;
 use strict;
 use warnings;
 use version;
-our $VERSION = 0.7;
+our $VERSION = 0.71;
 
 use Moo;
 use Types::Standard qw/ArrayRef HashRef Object Str/;
@@ -552,7 +552,7 @@ compatible.
 
 =head1 VERSION
 
-Version 0.7
+Version 0.71
 
 
 =head1 SYNOPSIS
