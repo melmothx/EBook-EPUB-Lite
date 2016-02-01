@@ -1,0 +1,26 @@
+Source: libebook-epub-lite-perl
+Section: perl
+Priority: optional
+Maintainer: packager <melmothx@gmail.com>
+Build-Depends: debhelper (>= 9)
+Build-Depends-Indep: libarchive-zip-perl,
+ libmoo-perl (>= 1),
+ libtype-tiny-perl (>= 1),
+ libuuid-tiny-perl,
+ libxml-writer-perl,
+ perl
+Standards-Version: 3.9.6
+Homepage: https://metacpan.org/release/EBook-EPUB-Lite
+
+Package: libebook-epub-lite-perl
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends},
+ libarchive-zip-perl,
+ libmoo-perl (>= 1),
+ libtype-tiny-perl (>= 1),
+ libuuid-tiny-perl,
+ libxml-writer-perl
+Description: module for generating EPUB documents
+ EBook::EPUB::Lite is a fork of EBook::EPUB to avoid the use of non-core, XS
+ dependencies like Moose and Data::UUID, using instead Moo and UUID::Tiny.
+ This module and the original one should be 1:1 compatible.

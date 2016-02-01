@@ -1,0 +1,11 @@
+libebook-epub-lite-perl (0.71-2) unstable; urgency=medium
+
+  * Rebuilt with proper attribution
+
+ --
+
+libebook-epub-lite-perl (0.71-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Marco Pessotto <melmothx@gmail.com>  Sat, 16 Jan 2016 10:00:40 +0100

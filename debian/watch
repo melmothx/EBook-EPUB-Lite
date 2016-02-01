@@ -1,0 +1,2 @@
+version=3
+https://metacpan.org/release/EBook-EPUB-Lite   .*/EBook-EPUB-Lite-v?(\d[\d.-]*)\.(?:tar(?:\.gz|\.bz2)?|tgz|zip)$
